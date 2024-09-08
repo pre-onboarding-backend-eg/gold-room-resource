@@ -29,9 +29,12 @@ public enum ErrorCode {
     INVALID_PARAMETER_BUYER_NAME(HttpStatus.BAD_REQUEST, "구매자의 이름이 비어있습니다."),
     INVALID_PARAMETER_ZIP_CODE(HttpStatus.BAD_REQUEST,"우편번호가 비어있습니다."),
     INVALID_PARAMETER_ADDRESS(HttpStatus.BAD_REQUEST,"배송지 주소가 비어있습니다."),
-    INVALID_PARAMETER_DETAIL_ADDRESS(HttpStatus.BAD_REQUEST,"배송지 상세 주소가 비어있습니다.");
+    INVALID_PARAMETER_DETAIL_ADDRESS(HttpStatus.BAD_REQUEST,"배송지 상세 주소가 비어있습니다."),
 
-
+    // 주문 상태 업데이트
+    ORDER_NUMBER_RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND,"존재하지 않는 주문입니다."),
+    USER_NOT_AUTHORIZED_FORBIDDEN(HttpStatus.FORBIDDEN,"해당 주문에 대한 변경 권한이 없습니다."),
+    ORDER_STATUS_PATCH_CONFLICT(HttpStatus.CONFLICT,"주문상태 변경에 실패했습니다.");
     //공통
     private final HttpStatus status;
     private final String message;

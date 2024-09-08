@@ -62,4 +62,15 @@ public class Order {
 
     @Column(nullable = false)
     private String orderDetailAddress; // 상세주소
+
+    // 판매자 주문 상태 업데이트
+    public Order updateBuyerStatus(OrderStatus buyerStatus) {
+        this.buyerStatus = buyerStatus;
+        return this;
+    }
+    // 구매자 주문 상태 업데이트
+    public Order updateSellerStatus(OrderStatus sellerStatus) {
+        this.sellerStatus = sellerStatus;
+        return this;
+    }
 }
