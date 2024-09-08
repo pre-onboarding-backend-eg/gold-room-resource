@@ -4,15 +4,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.example.goldroomresource.order.domain.Order;
 import org.example.goldroomresource.order.dto.OrderDto;
 import org.example.goldroomresource.order.dto.OrderResponseDto;
+import org.example.goldroomresource.order.dto.UpdateOrderStatusDto;
+import org.example.goldroomresource.order.dto.UpdateOrderStatusResponseDto;
 import org.example.goldroomresource.order.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -35,8 +35,14 @@ public class OrderController {
         OrderResponseDto orderResponse = orderService.createOrder(orderDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(orderResponse);
     }
-
-    // 2. 주문목록 가져오기
-    // 3. 주문 상태 업데이트
-    // 4. 주문 페이지네이션
+    // 2. 주문 상태 업데이트
+    @PatchMapping("/{orderNumber}/patch-status")
+    public ResponseEntity<UpdateOrderStatusResponseDto> updateOrderStatus(@PathVariable String orderNumber,
+                                                                          @RequestBody UpdateOrderStatusDto updateOrderStatusDto) {
+        UpdateOrderStatusResponseDto updateOrder = orderService.updateOrderStatus(orderNumber,updateOrderStatusDto);
+        return ResponseEntity.status(HttpStatus.OK).body(updateOrder);
+    }
+    // 3. 주문 목록 가져오기
+    // 4. 주문 단일 가져오기
+    // 5. 주문 삭제하기
 }
