@@ -33,7 +33,7 @@ public enum ErrorCode {
 
     // 주문 상태 업데이트
     ORDER_NUMBER_RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND,"존재하지 않는 주문입니다."),
-    USER_NOT_AUTHORIZED_FORBIDDEN(HttpStatus.FORBIDDEN,"해당 주문에 대한 권한이 없습니다."),
+    USER_NOT_AUTHORIZED_FORBIDDEN(HttpStatus.FORBIDDEN,"해당 주문에 대한 변경 권한이 없습니다."),
     ORDER_STATUS_PATCH_CONFLICT(HttpStatus.CONFLICT,"주문상태 변경에 실패했습니다.");
     //공통
     private final HttpStatus status;
