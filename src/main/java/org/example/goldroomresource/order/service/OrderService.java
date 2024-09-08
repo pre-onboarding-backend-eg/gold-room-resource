@@ -1,6 +1,9 @@
 package org.example.goldroomresource.order.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.goldroomresource.exception.BadRequestException;
+import org.example.goldroomresource.exception.ErrorCode;
+import org.example.goldroomresource.exception.InternalServerException;
 import org.example.goldroomresource.order.domain.Order;
 import org.example.goldroomresource.order.domain.OrderItem;
 import org.example.goldroomresource.order.domain.OrderStatus;
@@ -21,18 +24,21 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final GenerateOrderNumber generateOrderNumber;
+    private final ValidateOrder validateOrder;
 
     // 1. 주문 생성하기
     @Transactional
     public OrderResponseDto createOrder(OrderDto orderDto) {
-        // 1. OrderItem 총 수량과 총 금액 계산
+           // 1. 전체 입력 유효성 검사
+           validateOrder.validateOrderInput(orderDto);
+            // 2. OrderItem 총 수량과 총 금액 계산
         BigDecimal totalOrderQuantity = BigDecimal.ZERO; // 초기화
         BigDecimal totalOrderAmount = BigDecimal.ZERO; // 초기화
         for(OrderItemDto itemDto : orderDto.orderItems()){
             totalOrderQuantity = totalOrderQuantity.add(itemDto.orderItemQuantity());
             totalOrderAmount = totalOrderAmount.add(itemDto.orderItemPrice());
         }
-        // 2. OrderItemDto 리스트 -> OrderItem 객체 생성
+        // 3. OrderItemDto 리스트 -> OrderItem 객체 생성
         List<OrderItem> orderItems = orderDto.orderItems().stream()
                 .map(itemDto ->OrderItem.builder()
                         .goldType(itemDto.goldType())
@@ -40,7 +46,7 @@ public class OrderService {
                         .orderItemPrice(itemDto.orderItemPrice())
                         .build())
                 .collect(Collectors.toList());
-        // 3. Order 객체 생성
+        // 4. Order 객체 생성
         Order order = Order.builder()
                 .orderNumber(generateOrderNumber.generateOrderNumber(orderDto.goldRoomName())) //주문번호 생성
                 .orderDate(LocalDate.now())
@@ -56,9 +62,9 @@ public class OrderService {
                 .orderAddress(orderDto.orderAddress())
                 .orderDetailAddress(orderDto.orderDetailAddress())
                 .build();
-        // 4. Order 저장하고 반환
+        // 5. Order 저장하고 반환
         orderRepository.save(order);
-        // 5. OrderResponse 생성 및 반환
+        // 6. OrderResponse 생성 및 반환
         return new OrderResponseDto("주문이 성공적으로 접수됐습니다.",order);
     }
     // 2. 주문번호로 주문 가져오기
