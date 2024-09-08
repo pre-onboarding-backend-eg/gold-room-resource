@@ -29,9 +29,9 @@ public class OrderService {
     // 1. 주문 생성하기
     @Transactional
     public OrderResponseDto createOrder(OrderDto orderDto) {
-           // 1. 전체 입력 유효성 검사
-           validateOrder.validateOrderInput(orderDto);
-            // 2. OrderItem 총 수량과 총 금액 계산
+        // 1. 전체 입력 유효성 검사
+        validateOrder.validateOrderInput(orderDto);
+        // 2. OrderItem 총 수량과 총 금액 계산
         BigDecimal totalOrderQuantity = BigDecimal.ZERO; // 초기화
         BigDecimal totalOrderAmount = BigDecimal.ZERO; // 초기화
         for(OrderItemDto itemDto : orderDto.orderItems()){
@@ -53,8 +53,8 @@ public class OrderService {
                 .buyerUserName(orderDto.buyerUserName())
                 .sellerUserName(orderDto.sellerUserName())
                 .goldRoomName(orderDto.goldRoomName())
-                .buyerStatus(OrderStatus.ORDER_COMPLETED)
-                .sellerStatus(OrderStatus.ORDER_RECEIVED)
+                .buyerStatus(OrderStatus.BUY_ORDER_COMPLETED)
+                .sellerStatus(OrderStatus.SELL_ORDER_COMPLETED)
                 .orderItems(orderItems)
                 .totalOrderQuantity(totalOrderQuantity)
                 .totalOrderAmount(totalOrderAmount)
@@ -67,8 +67,8 @@ public class OrderService {
         // 6. OrderResponse 생성 및 반환
         return new OrderResponseDto("주문이 성공적으로 접수됐습니다.",order);
     }
-    // 2. 주문번호로 주문 가져오기
-    // 3. 주문상태 업데이트하기
-    // 4. 페이징 처리
-    // 5. 주문번호 생성기
+
+    // 2. 주문번호로 주문 가져와서 상태 업데이트하기
+    // 3. 사용자별 전체 주문 페이징 처리
+    // 4. 주문 삭제 - jwt 토큰 사용자 검증
 }
