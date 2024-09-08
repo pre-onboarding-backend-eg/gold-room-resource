@@ -12,7 +12,7 @@ public class ErrorResponse {
         this.message=errorCode.getMessage();
     }
 
-    public ErrorResponse(ErrorCode errorCode, String message) {
+    public ErrorResponse(ErrorCode errorCode, String customMessage) {
         this.status=errorCode.getStatus().value();
         this.message = customMessage !=null ? customMessage : errorCode.getMessage();
     }
