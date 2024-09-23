@@ -1,6 +1,6 @@
 <div align="center">
 
-# Gold-Room-Auth
+# Gold-Room-Resource
 
 ### ✨ Backend TechStack ✨
 ![Java](https://img.shields.io/badge/-Java-FF7800?style=flat&logo=Java&logoColor=white)
